@@ -1,0 +1,61 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Artist {
+  id              String            @id
+  name            String
+  url             String            @unique
+  ArtistsOnTracks ArtistsOnTracks[]
+  Track           Track[]
+}
+
+model ArtistsOnTracks {
+  id       String @id
+  trackId  String
+  artistId String
+  Artist   Artist @relation(fields: [artistId], references: [id])
+  Track    Track  @relation(fields: [trackId], references: [id])
+}
+
+model File {
+  id      String  @id
+  path    String  @unique
+  trackId String?
+  Track   Track?  @relation(fields: [trackId], references: [id])
+}
+
+model Genre {
+  id    String  @id
+  name  String  @unique
+  url   String  @unique
+  Track Track[]
+}
+
+model Label {
+  id    String  @id
+  name  String
+  url   String  @unique
+  Track Track[]
+}
+
+model Track {
+  id              String            @id
+  name            String
+  labelId         String
+  genreId         String
+  isOriginalMix   Boolean
+  length          Int
+  releaseDate     DateTime
+  bpm             Int
+  key             String
+  url             String
+  price           String
+  artWorkUrl      String
+  ArtistsOnTracks ArtistsOnTracks[]
+  File            File[]
+  Genre           Genre             @relation(fields: [genreId], references: [id])
+  Label           Label             @relation(fields: [labelId], references: [id])
+  Artist          Artist[]
+}
