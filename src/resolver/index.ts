@@ -56,13 +56,19 @@ export const resolvers = {
     },
   },
   Track: {
-    async artists(parent) {
+    artists(parent) {
       return prisma.artistsOnTracks
         .findMany({
           where: { trackId: parent.id },
           include: { artist: true },
         })
         .then((res) => res.map((r) => r.artist));
+    },
+    genre(parent) {
+      return prisma.genre.findUnique({ where: { id: parent.genreId } });
+    },
+    label(parent) {
+      return prisma.label.findUnique({ where: { id: parent.labelId } });
     },
   },
 };
