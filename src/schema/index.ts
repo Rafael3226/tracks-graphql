@@ -2,19 +2,22 @@ export const typeDefs = `#graphql
 type Genre {
   id: ID!
   name: String!
-  url: String
+  url: String!
+  tracks: [Track!]!
 }
 
 type Artist {
   id: ID!
   name: String!
-  url: String
+  url: String!
+  tracks: [Track!]!
 }
 
 type Label {
   id: ID!
   name: String!
-  url: String
+  url: String!
+  tracks: [Track!]!
 }
 
 type Track {

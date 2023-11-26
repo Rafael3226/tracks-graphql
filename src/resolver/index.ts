@@ -71,4 +71,24 @@ export const resolvers = {
       return prisma.label.findUnique({ where: { id: parent.labelId } });
     },
   },
+  Label: {
+    tracks(parent) {
+      return prisma.track.findMany({ where: { labelId: parent.id } });
+    },
+  },
+  Artist: {
+    tracks(parent) {
+      return prisma.artistsOnTracks
+        .findMany({
+          where: { artistId: parent.id },
+          include: { track: true },
+        })
+        .then((res) => res.map((r) => r.track));
+    },
+  },
+  Genre: {
+    tracks(parent) {
+      return prisma.track.findMany({ where: { genreId: parent.id } });
+    },
+  },
 };
