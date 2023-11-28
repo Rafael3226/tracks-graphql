@@ -54,4 +54,14 @@ type Query {
   files: [File]
   file(id: ID!): File
 }
+
+type Mutation {
+  createGenre(genre:CreateGenreInput!): Genre!
+}
+
+input CreateGenreInput {
+  name: String!
+  url: String!
+}
+
 `;

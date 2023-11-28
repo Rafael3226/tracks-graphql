@@ -1,6 +1,10 @@
 import { PrismaClient } from "@prisma/client";
+import GenreRepository from "../repository/genre-repository";
+import Genre from "../entity/genre";
 
 const prisma = new PrismaClient();
+
+const genreRepository = new GenreRepository(prisma);
 
 export const resolvers = {
   Query: {
@@ -89,6 +93,13 @@ export const resolvers = {
   Genre: {
     tracks(parent) {
       return prisma.track.findMany({ where: { genreId: parent.id } });
+    },
+  },
+  Mutation: {
+    createGenre(_, args) {
+      const props = args.genre;
+      const genre = Genre.create(props);
+      return genreRepository.create(genre);
     },
   },
 };
